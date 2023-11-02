@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-neutural: #3ba5ff;
+  --color-active: gold;
+  --color-success: lightgreen;
+  --color-failed: palevioletred;
+  --color-border: #224ba1;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  background-color: lightgrey;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}

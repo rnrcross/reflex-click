@@ -1,0 +1,17 @@
+<div class="field">
+    <button *ngFor="let box of clickBoxes; let i = index" class="box"
+            [ngClass]="[BoxClassMap[box], 'btn']"
+            (click)="onBoxClick(i)"
+            type="button"
+    >
+    </button>
+</div>
+<div class="controls">
+    <button type="button" class="btn start-btn" (click)="onStartClick()">Start</button> <br>
+    <label class="time-range">
+        <input [(ngModel)]="timer" type="range" min="100" max="2000" step="5">
+        <span>{{ timer }} ms</span>
+    </label>
+</div>
+<span>{{ computerPoints }} / {{ playerPoints }}</span>
+<app-popup></app-popup>
