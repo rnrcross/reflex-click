@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { concatMap, delay, finalize, from, of, pairwise, startWith, Subscription, takeWhile } from 'rxjs';
 import { ClickBoxStatusEnum } from './enums';
+import { PopupService } from '../../shred/popup';
+import { GameNotificationComponent } from './game-notification/game-notification.component';
 
 @Component({
   selector: 'app-reflex-click',
@@ -9,7 +11,7 @@ import { ClickBoxStatusEnum } from './enums';
 })
 export class ReflexClickComponent implements OnInit, OnDestroy {
   boxesQuantity = 100;
-  private pointsToWin = 10;
+  private pointsToWin = 2;
   public playerPoints = 0;
   public computerPoints = 0;
   public timer = 1000;
@@ -23,6 +25,8 @@ export class ReflexClickComponent implements OnInit, OnDestroy {
     [ClickBoxStatusEnum.failed]: 'failed',
   }
   protected readonly BoxStatusEnum = ClickBoxStatusEnum;
+
+  constructor(private popupService: PopupService) {}
 
   ngOnInit(): void {
   }
@@ -63,7 +67,11 @@ export class ReflexClickComponent implements OnInit, OnDestroy {
             delay(this.timer),
           )
         ),
-        finalize(() => console.log('game over')),
+        finalize(() => {
+          console.log('game over')
+          this.popupService.open(GameNotificationComponent);
+
+        }),
       ).subscribe(([prev, curr]) => {
         console.log(prev, curr);
         if (this.clickBoxes.at(prev) === ClickBoxStatusEnum.active) {

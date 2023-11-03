@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 
 import { ReflexClickComponent } from './reflex-click.component';
 import { PopupComponent } from '../../shred/popup';
+import { GameNotificationComponent } from './game-notification/game-notification.component';
 
 @NgModule({
   declarations: [
-    ReflexClickComponent
+    ReflexClickComponent,
+    GameNotificationComponent
   ],
   imports: [
     CommonModule,
