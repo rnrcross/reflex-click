@@ -1,16 +1,18 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
 import { ClickBoxStatusEnum } from '../../enums';
 
 @Component({
   selector: 'app-click-box',
   templateUrl: './click-box.component.html',
-  styleUrls: ['./click-box.component.css']
+  styleUrls: ['./click-box.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClickBoxComponent {
-  @Input() status: ClickBoxStatusEnum = ClickBoxStatusEnum.neutral;
+  @Input() status = ClickBoxStatusEnum.neutral;
   @Output() activeClick = new EventEmitter<void>();
 
-  BoxClassMap = {
+  public readonly BoxClassMap = {
     [ClickBoxStatusEnum.neutral]: 'neutral',
     [ClickBoxStatusEnum.active]: 'active',
     [ClickBoxStatusEnum.clicked]: 'success',

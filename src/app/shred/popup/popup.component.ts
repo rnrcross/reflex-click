@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener } from '@angular/core';
 
 import { PopupService } from './services';
 
@@ -7,17 +7,17 @@ import { PopupService } from './services';
   selector: 'app-popup',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupComponent {
-
   constructor(private popupService: PopupService) {}
 
   @HostListener('document:keydown.escape')
-  onEscape() {
+  onEscape(): void {
     this.popupService.close();
   }
 
-  onCloseClick() {
+  public onCloseClick(): void {
     this.popupService.close();
   }
 }

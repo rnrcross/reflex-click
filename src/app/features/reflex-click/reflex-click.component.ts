@@ -1,24 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+
 import { PopupService } from '../../shred/popup';
 import { GameNotificationComponent } from './components';
 import { GameService } from './services';
-
-const WINNER_INFO = {
-  title: 'Congratulations!',
-  description: `Your reflexes are outstanding!\n You\'ve mastered the challenge with impressive skill.`,
-}
-const LOOSER_INFO = {
-  title: 'Almost there!',
-  description: `Your reflexes are getting better with every try.\n Give it another shot and show what you're capable of!`,
-}
+import { LOOSER_INFO, WINNER_INFO } from './constants';
+import { NotificationInfo } from './interfaces';
 
 @Component({
   selector: 'app-reflex-click',
   templateUrl: './reflex-click.component.html',
-  styleUrls: ['./reflex-click.component.css']
+  styleUrls: ['./reflex-click.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReflexClickComponent implements OnInit, OnDestroy {
+export class ReflexClickComponent implements OnDestroy {
   public timerRangeValue = 1000;
   private gameSubscription!: Subscription;
 
@@ -27,10 +22,7 @@ export class ReflexClickComponent implements OnInit, OnDestroy {
     public readonly gameService: GameService,
   ) {}
 
-  ngOnInit(): void {
-  }
-
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.gameSubscription.unsubscribe();
   }
 
@@ -40,7 +32,9 @@ export class ReflexClickComponent implements OnInit, OnDestroy {
       .subscribe({
         complete: () => {
           const componentRef =  this.popupService.open(GameNotificationComponent);
-          const notificationInfo = this.gameService.playerPoints > this.gameService.computerPoints ? WINNER_INFO : LOOSER_INFO
+          const notificationInfo: NotificationInfo = this.gameService.playerPoints > this.gameService.computerPoints
+            ? WINNER_INFO
+            : LOOSER_INFO;
 
           componentRef.instance.title = notificationInfo.title;
           componentRef.instance.description = notificationInfo.description;
@@ -58,7 +52,7 @@ export class ReflexClickComponent implements OnInit, OnDestroy {
     this.gameService.setClickedByIndex(index);
   }
 
-  public onTimerRangeChange() {
+  public onTimerRangeChange(): void {
     this.gameService.setTimer(this.timerRangeValue);
   }
 }

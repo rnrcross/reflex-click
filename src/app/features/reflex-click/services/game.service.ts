@@ -11,7 +11,9 @@ import {
   takeWhile,
   tap
 } from 'rxjs';
+
 import { ClickBoxStatusEnum } from '../enums';
+import { getRandomArray } from '../helpers';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +31,6 @@ export class GameService {
     return this.computerPoints < this.pointsToWin && this.playerPoints < this.pointsToWin;
   }
 
-  public timer = 1000;
   public get playerPoints$(): Observable<number> {
     return this._playerPoints$.asObservable();
   }
@@ -43,9 +44,9 @@ export class GameService {
     return this._computerPoints$.getValue();
   }
 
+  private timer = 1000;
   private readonly pointsToWin = 2;
   private readonly boxesQuantity = 100;
-
   private readonly _clickBoxes$ = new BehaviorSubject<ClickBoxStatusEnum[]>(
     new Array(this.boxesQuantity).fill(ClickBoxStatusEnum.neutral)
   );
@@ -53,8 +54,6 @@ export class GameService {
   private readonly _computerPoints$ = new BehaviorSubject<number>(0);
 
   public setTimer(ms: number): void {
-    // if (this.playerPoints || this.computerPoints) return;
-
     this.timer = ms;
   }
   public resetGame(): void {
@@ -66,9 +65,9 @@ export class GameService {
 
   public gameStream(): Observable<[number, number]> {
     const timer = this.timer;
-    const randomBoxes = this.getRandomArray(this.pointsToWin * 2, this.clickBoxes.length);
+    const randomBoxIndexes = getRandomArray(this.pointsToWin * 2, this.clickBoxes.length);
 
-    return from(randomBoxes)
+    return from(randomBoxIndexes)
       .pipe(
         startWith(-1),
         pairwise(),
@@ -108,17 +107,5 @@ export class GameService {
 
     this.clickBoxes[index] = status;
     this._clickBoxes$.next(this.clickBoxes);
-  }
-
-  private getRandomArray(length: number, limit: number): number[] {
-    const randomSet = new Set<number>();
-
-    while (randomSet.size < length) {
-      const randomNumber = Math.floor(Math.random() * limit);
-
-      randomSet.add(randomNumber);
-    }
-
-    return Array.from(randomSet);
   }
 }

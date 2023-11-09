@@ -8,8 +8,8 @@ export class PopupService {
   private popupComponentRef: ComponentRef<PopupComponent> | null = null;
 
   constructor(
-    private envInjector: EnvironmentInjector,
-    private appRef: ApplicationRef,
+    private readonly envInjector: EnvironmentInjector,
+    private readonly appRef: ApplicationRef,
   ) { }
 
   public open<T>(contentComponent: Type<T>): ComponentRef<T> {

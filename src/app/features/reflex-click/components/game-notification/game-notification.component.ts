@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-game-notification',
   templateUrl: './game-notification.component.html',
-  styleUrls: ['./game-notification.component.css']
+  styleUrls: ['./game-notification.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameNotificationComponent {
   @Input() title: string = 'Congratulations!';

@@ -17,14 +17,14 @@ body {
   background-color: lightgrey;
 }
 
-.btn {
+button {
   cursor: pointer;
 }
 
-.btn:hover:not(:disabled) {
+button:hover:not(:disabled) {
   opacity: .8;
 }
 
-.btn:active:not(:disabled) {
+button:active:not(:disabled) {
   transform: scale(1.05);
 }
