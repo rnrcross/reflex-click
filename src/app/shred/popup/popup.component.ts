@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, HostListener, Input } from '@angular/core';
 
 import { PopupService } from './services';
 
@@ -9,14 +9,15 @@ import { PopupService } from './services';
   styleUrls: ['./popup.component.css'],
 })
 export class PopupComponent {
-  @Input() isVisible = true;
-  @HostBinding('style.display') get display() {
-    return this.isVisible ? 'flex' : 'none';
-  }
 
   constructor(private popupService: PopupService) {}
 
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.popupService.close();
+  }
+
   onCloseClick() {
-    this.isVisible = false;
+    this.popupService.close();
   }
 }

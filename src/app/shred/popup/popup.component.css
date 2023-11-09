@@ -12,7 +12,7 @@
 
 .popup {
     width: 25%;
-    min-height: 50%;
+    min-height: 25%;
     padding: 50px;
     background-color: #fff;
     border-radius: 15px;
@@ -33,7 +33,7 @@
 }
 
 .close-btn:hover {
-    color: #f00;
+    color: var(--color-neutral);
     transform: scale(1.2);
 }
 

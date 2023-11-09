@@ -6,45 +6,8 @@
     width: 500px;
     height: 500px;
     padding: 50px 25px;
-    background-color: #211a48;
+    background-color: var(--color-dark-blue);
     border-radius: 50px;
-}
-
-.box {
-    border: 3px solid var(--color-border);
-    border-radius: 5px;
-}
-
-.btn {
-    cursor: pointer;
-}
-
-.box:disabled {
-    cursor: default;
-}
-
-.btn:hover:not(:disabled) {
-    opacity: .8;
-}
-
-.btn:active:not(:disabled) {
-    transform: scale(1.05);
-}
-
-.box.neutral {
-    background-color: var(--color-neutural);
-}
-
-.box.active {
-    background-color: var(--color-active);
-}
-
-.box.success {
-    background-color: var(--color-success);
-}
-
-.box.failed {
-    background-color: var(--color-failed);
 }
 
 .start-btn {
@@ -55,7 +18,7 @@
     color: white;
     font-size: 24px;
     font-weight: bold;
-    background-color: var(--color-neutural);
+    background-color: var(--color-neutral);
 }
 
 .controls {
@@ -66,4 +29,33 @@
 
 .time-range {
     min-width: 200px
+}
+
+.game-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.score {
+    min-width: 25%;
+    text-align: center;
+}
+
+.opponent-title {
+    font-size: 3rem;
+    color: var(--color-dark-blue)
+}
+
+.points {
+    background-color: var(--color-dark-blue);
+    border-radius: 15px;
+    font-size: 20rem;
+}
+
+.player-points {
+    color: var(--color-success);
+}
+
+.computer-points {
+    color: var(--color-failed);
 }

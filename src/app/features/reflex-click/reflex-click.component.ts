@@ -1,8 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { concatMap, delay, finalize, from, of, pairwise, startWith, Subscription, takeWhile } from 'rxjs';
-import { ClickBoxStatusEnum } from './enums';
+import { Subscription } from 'rxjs';
 import { PopupService } from '../../shred/popup';
-import { GameNotificationComponent } from './game-notification/game-notification.component';
+import { GameNotificationComponent } from './components/game-notification';
+import { GameService } from './services';
+
+const WINNER_INFO = {
+  title: 'Congratulations!',
+  description: `Your reflexes are outstanding!\n You\'ve mastered the challenge with impressive skill.`,
+}
+const LOOSER_INFO = {
+  title: 'Almost there!',
+  description: `Your reflexes are getting better with every try.\n Give it another shot and show what you're capable of!`,
+}
 
 @Component({
   selector: 'app-reflex-click',
@@ -10,87 +19,46 @@ import { GameNotificationComponent } from './game-notification/game-notification
   styleUrls: ['./reflex-click.component.css']
 })
 export class ReflexClickComponent implements OnInit, OnDestroy {
-  boxesQuantity = 100;
-  private pointsToWin = 2;
-  public playerPoints = 0;
-  public computerPoints = 0;
-  public timer = 1000;
-  public clickBoxes: ClickBoxStatusEnum[] = new Array(this.boxesQuantity).fill(ClickBoxStatusEnum.neutral);
-  randomBoxes: number[] = [];
-  subscription!: Subscription;
-  BoxClassMap = {
-    [ClickBoxStatusEnum.neutral]: 'neutral',
-    [ClickBoxStatusEnum.active]: 'active',
-    [ClickBoxStatusEnum.success]: 'success',
-    [ClickBoxStatusEnum.failed]: 'failed',
-  }
-  protected readonly BoxStatusEnum = ClickBoxStatusEnum;
+  public timerRangeValue = 1000;
+  private gameSubscription!: Subscription;
 
-  constructor(private popupService: PopupService) {}
+  constructor(
+    private readonly popupService: PopupService,
+    public readonly gameService: GameService,
+  ) {}
 
   ngOnInit(): void {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.gameSubscription.unsubscribe();
   }
 
-  get isGameContinue(): boolean {
-    return this.computerPoints < this.pointsToWin && this.playerPoints < this.pointsToWin;
+  private initBoxesToggleObserver(): void {
+    if (this.gameSubscription) this.gameSubscription.unsubscribe();
+    this.gameSubscription = this.gameService.gameStream()
+      .subscribe({
+        complete: () => {
+          const componentRef =  this.popupService.open(GameNotificationComponent);
+          const notificationInfo = this.gameService.playerPoints > this.gameService.computerPoints ? WINNER_INFO : LOOSER_INFO
+
+          componentRef.instance.title = notificationInfo.title;
+          componentRef.instance.description = notificationInfo.description;
+        }
+      });
   }
 
   public onStartClick(): void {
-    this.clickBoxes = this.clickBoxes.fill(ClickBoxStatusEnum.neutral);
-    this.randomBoxes = this.getRandomArray(this.pointsToWin * 2, this.clickBoxes.length);
-    this.playerPoints = this.computerPoints = 0;
-    // this.restart$.next();
+    this.gameService.resetGame();
+    this.gameService.setTimer(this.timerRangeValue);
     this.initBoxesToggleObserver();
   }
 
   public onBoxClick(index: number): void {
-    if (this.clickBoxes.at(index) === ClickBoxStatusEnum.active) {
-      this.clickBoxes[index] = ClickBoxStatusEnum.success;
-      this.playerPoints++;
-    }
+    this.gameService.setClickedByIndex(index);
   }
 
-  private initBoxesToggleObserver(): void {
-    if (this.subscription) this.subscription.unsubscribe();
-    console.log(this.randomBoxes);
-    this.subscription = from(this.randomBoxes)
-      .pipe(
-        startWith(-1),
-        pairwise(),
-        concatMap(value => of(value)
-          .pipe(
-            takeWhile(() => this.isGameContinue),
-            delay(this.timer),
-          )
-        ),
-        finalize(() => {
-          console.log('game over')
-          this.popupService.open(GameNotificationComponent);
-
-        }),
-      ).subscribe(([prev, curr]) => {
-        console.log(prev, curr);
-        if (this.clickBoxes.at(prev) === ClickBoxStatusEnum.active) {
-          this.clickBoxes[prev] = ClickBoxStatusEnum.failed;
-          this.computerPoints++;
-        }
-        if (curr >= 0 && this.isGameContinue) this.clickBoxes[curr] = ClickBoxStatusEnum.active;
-      });
-  }
-
-  getRandomArray(length: number, limit: number): number[] {
-    const randomSet = new Set<number>();
-
-    while (randomSet.size < length) {
-      const randomNumber = Math.floor(Math.random() * limit);
-
-      randomSet.add(randomNumber);
-    }
-
-    return Array.from(randomSet);
+  public onTimerRangeChange() {
+    this.gameService.setTimer(this.timerRangeValue);
   }
 }
