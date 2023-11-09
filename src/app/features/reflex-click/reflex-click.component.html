@@ -3,25 +3,30 @@
         <h2 class="opponent-title">Player</h2>
         <span class="points player-points"> {{ gameService.playerPoints$ | async }} </span>
     </div>
-    <div class="field">
-        <app-click-box
-          *ngFor="let box of gameService.clickBoxes$ | async; let i = index"
-          [status]="box"
-          (activeClick)="onBoxClick(i)"
-        >
-        </app-click-box>
+    <div class="field-wrapper">
+        <div class="field">
+            <app-click-box
+              *ngFor="let box of gameService.clickBoxes$ | async; let i = index"
+              [status]="box"
+              (activeClick)="onBoxClick(i)"
+            >
+            </app-click-box>
+        </div>
+        <div class="controls">
+            <button type="button" class="start-btn" (click)="onStartClick()">
+                Start
+            </button>
+            <label>
+                <span class="time-unit">{{ timerRangeValue }} ms</span><br>
+                <input [(ngModel)]="timerRangeValue"
+                       (change)="onTimerRangeChange()"
+                       type="range" min="100" max="2000" step="10"
+                >
+            </label>
+        </div>
     </div>
     <div class="score">
         <h2 class="opponent-title">Computer</h2>
         <span class="points computer-points"> {{ gameService.computerPoints$ | async }} </span>
     </div>
-</div>
-<div class="controls">
-    <button type="button" class="start-btn" (click)="onStartClick()">Start</button> <br>
-    <label class="time-range">
-        <input [(ngModel)]="timerRangeValue"
-               (change)="onTimerRangeChange()"
-               type="range" min="100" max="2000" step="5">
-        <span>{{ timerRangeValue }} ms</span>
-    </label>
 </div>

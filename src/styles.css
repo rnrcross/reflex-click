@@ -21,6 +21,10 @@ button {
   cursor: pointer;
 }
 
+input[type=range] {
+  cursor: pointer;
+}
+
 button:hover:not(:disabled) {
   opacity: .8;
 }

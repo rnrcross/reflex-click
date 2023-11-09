@@ -45,7 +45,7 @@ export class GameService {
   }
 
   private timer = 1000;
-  private readonly pointsToWin = 2;
+  private readonly pointsToWin = 10;
   private readonly boxesQuantity = 100;
   private readonly _clickBoxes$ = new BehaviorSubject<ClickBoxStatusEnum[]>(
     new Array(this.boxesQuantity).fill(ClickBoxStatusEnum.neutral)

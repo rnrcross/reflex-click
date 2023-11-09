@@ -13,7 +13,7 @@ export class PopupComponent {
   constructor(private popupService: PopupService) {}
 
   @HostListener('document:keydown.escape')
-  onEscape(): void {
+  private onEscape(): void {
     this.popupService.close();
   }
 
