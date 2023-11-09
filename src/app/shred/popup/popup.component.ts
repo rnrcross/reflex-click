@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Input } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { PopupService } from './services';
 

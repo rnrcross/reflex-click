@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PopupService } from '../../shred/popup';
-import { GameNotificationComponent } from './components/game-notification';
+import { GameNotificationComponent } from './components';
 import { GameService } from './services';
 
 const WINNER_INFO = {
