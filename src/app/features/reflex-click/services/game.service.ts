@@ -48,7 +48,7 @@ export class GameService {
   private readonly pointsToWin = 10;
   private readonly boxesQuantity = 100;
   private readonly _clickBoxes$ = new BehaviorSubject<ClickBoxStatusEnum[]>(
-    new Array(this.boxesQuantity).fill(ClickBoxStatusEnum.neutral)
+    new Array(this.boxesQuantity).fill(ClickBoxStatusEnum.Neutral)
   );
   private readonly _playerPoints$ = new BehaviorSubject<number>(0);
   private readonly _computerPoints$ = new BehaviorSubject<number>(0);
@@ -59,13 +59,14 @@ export class GameService {
   public resetGame(): void {
     this._playerPoints$.next(0);
     this._computerPoints$.next(0);
-    this.clickBoxes.fill(ClickBoxStatusEnum.neutral);
+    this.clickBoxes.fill(ClickBoxStatusEnum.Neutral);
     this._clickBoxes$.next(this.clickBoxes);
   }
 
-  public gameStream(): Observable<[number, number]> {
+  public initGameStream(): Observable<[number, number]> {
     const timer = this.timer;
     const randomBoxIndexes = getRandomArray(this.pointsToWin * 2, this.clickBoxes.length);
+    this.resetGame();
 
     return from(randomBoxIndexes)
       .pipe(
@@ -84,22 +85,22 @@ export class GameService {
       )
   }
   public setClickedByIndex(index: number): void {
-    if (this.clickBoxes[index] !== ClickBoxStatusEnum.active) return;
+    if (this.clickBoxes[index] !== ClickBoxStatusEnum.Active) return;
 
-    this.updateStatusByIndex(index, ClickBoxStatusEnum.clicked);
+    this.updateStatusByIndex(index, ClickBoxStatusEnum.Clicked);
     this._playerPoints$.next(this.playerPoints + 1);
   }
   private setMissedByIndex(index: number): void {
-    if (this.clickBoxes[index] !== ClickBoxStatusEnum.active) return;
+    if (this.clickBoxes[index] !== ClickBoxStatusEnum.Active) return;
 
-    this.updateStatusByIndex(index, ClickBoxStatusEnum.missed);
+    this.updateStatusByIndex(index, ClickBoxStatusEnum.Missed);
     this._computerPoints$.next(this.computerPoints + 1);
   }
 
   private setActiveByIndex(index: number): void {
-    if (this.clickBoxes[index] !== ClickBoxStatusEnum.neutral) return;
+    if (this.clickBoxes[index] !== ClickBoxStatusEnum.Neutral) return;
 
-    this.updateStatusByIndex(index, ClickBoxStatusEnum.active);
+    this.updateStatusByIndex(index, ClickBoxStatusEnum.Active);
   }
 
   private updateStatusByIndex(index: number, status: ClickBoxStatusEnum): void {

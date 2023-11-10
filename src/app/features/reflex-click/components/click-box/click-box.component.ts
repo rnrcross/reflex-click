@@ -9,18 +9,18 @@ import { ClickBoxStatusEnum } from '../../enums';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClickBoxComponent {
-  @Input() status = ClickBoxStatusEnum.neutral;
+  @Input() status = ClickBoxStatusEnum.Neutral;
   @Output() activeClick = new EventEmitter<void>();
 
-  public readonly BoxClassMap = {
-    [ClickBoxStatusEnum.neutral]: 'neutral',
-    [ClickBoxStatusEnum.active]: 'active',
-    [ClickBoxStatusEnum.clicked]: 'success',
-    [ClickBoxStatusEnum.missed]: 'failed',
+  public readonly boxClassMap = {
+    [ClickBoxStatusEnum.Neutral]: 'neutral',
+    [ClickBoxStatusEnum.Active]: 'active',
+    [ClickBoxStatusEnum.Clicked]: 'success',
+    [ClickBoxStatusEnum.Missed]: 'failed',
   }
 
   onBoxClick(): void {
-    if (this.status === ClickBoxStatusEnum.active) {
+    if (this.status === ClickBoxStatusEnum.Active) {
       this.activeClick.emit();
     }
   }

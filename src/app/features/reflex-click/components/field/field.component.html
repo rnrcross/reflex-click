@@ -1,0 +1,20 @@
+<div class="field">
+  <app-click-box
+    *ngFor="let box of gameService.clickBoxes$ | async; let i = index"
+    [status]="box"
+    (activeClick)="onActiveBoxClick(i)"
+  >
+  </app-click-box>
+</div>
+<div class="controls">
+  <button type="button" class="start-btn" (click)="onStartClick()">
+    Start
+  </button>
+  <label>
+    <span class="time-unit">{{ timerRangeValue }} ms</span><br>
+    <input [(ngModel)]="timerRangeValue"
+           (change)="onTimerRangeChange()"
+           type="range" min="100" max="2000" step="10"
+    >
+  </label>
+</div>

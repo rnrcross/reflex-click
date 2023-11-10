@@ -1,0 +1,23 @@
+:host {
+    min-width: 25%;
+    text-align: center;
+}
+
+.opponent-title {
+    font-size: 3rem;
+    color: var(--color-dark-blue)
+}
+
+.points {
+    background-color: var(--color-dark-blue);
+    border-radius: 15px;
+    font-size: 20rem;
+}
+
+.player-points {
+    color: var(--color-success);
+}
+
+.computer-points {
+    color: var(--color-failed);
+}

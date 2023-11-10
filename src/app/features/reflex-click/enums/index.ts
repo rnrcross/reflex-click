@@ -1,1 +1,2 @@
-export * from './click-box-status';
+export * from './click-box-status.enum';
+export * from './opponent.enum';
