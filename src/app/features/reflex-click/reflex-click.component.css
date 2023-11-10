@@ -3,6 +3,10 @@
     justify-content: space-evenly;
 }
 
+app-score {
+    min-width: 260px;
+}
+
 @media (max-width: 1024px) {
     :host {
         flex-wrap: wrap;
