@@ -1,6 +1,6 @@
 :host {
-    min-width: 25%;
     text-align: center;
+
 }
 
 .opponent-title {
@@ -11,7 +11,7 @@
 .points {
     background-color: var(--color-dark-blue);
     border-radius: 15px;
-    font-size: 20rem;
+    font-size: var(--font-size-large);
 }
 
 .player-points {
@@ -20,4 +20,34 @@
 
 .computer-points {
     color: var(--color-failed);
+}
+
+@media (max-width: 1024px) {
+    :host {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .points {
+        font-size: var(--font-size-medium);
+    }
+
+    .opponent-title {
+        margin: 0 5px 0 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .points,
+    .opponent-title{
+        font-size: var(--font-size-small);
+    }
+}
+
+@media (max-width: 320px) {
+    .points,
+    .opponent-title{
+        font-size: var(--font-size-mobile);
+    }
 }

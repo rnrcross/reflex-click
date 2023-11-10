@@ -3,3 +3,27 @@
     justify-content: space-evenly;
 }
 
+app-score {
+    min-width: 300px;
+}
+
+@media (max-width: 1024px) {
+    :host {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    app-field {
+        order: 3;
+    }
+
+    app-score:first-of-type {
+        order: 1;
+        flex-basis: 50%;
+    }
+
+    app-score:last-of-type {
+        flex-basis: 50%;
+        order: 2;
+    }
+}
