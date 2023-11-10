@@ -6,15 +6,7 @@
   --color-border: #224ba1;
   --color-dark-blue: #211a48;
 
-
-  --max-width-large: 1440px;
-  --max-width-medium: 1024px;
-  --max-width-small: 768px;
-  --max-width-mobile: 320px;
-
-
-  /* Define font sizes */
-  --font-size-large: 15rem;
+  --font-size-large: 12rem;
   --font-size-medium: 5rem;
   --font-size-small: 2rem;
   --font-size-mobile: 1rem;
